@@ -2,4 +2,5 @@
     <string name="app_name">Assignment2</string>
     <string name="title_activity_main_page">MainPage</string>
     <string name="title_activity_options">Options</string>
+    <string name="title_activity_calandar">Calandar</string>
 </resources>

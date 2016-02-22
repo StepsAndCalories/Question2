@@ -1,8 +1,9 @@
-package com.example.patri_000.assignment2;
+package com.ex.patrick.myapp;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private int extraMeals=0;
     private int total=0;
     private Button totalButton;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

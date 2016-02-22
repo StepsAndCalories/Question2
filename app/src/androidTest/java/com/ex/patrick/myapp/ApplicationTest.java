@@ -1,4 +1,4 @@
-package com.example.patri_000.assignment2;
+package com.ex.patrick.myapp;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
