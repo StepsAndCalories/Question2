@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/menu_main"
-            android:orderInCategory="1"
-            android:title="Options"/>
-    </group>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <item android:id="@+id/mainPage"
+            android:title="Main Page"
+            android:orderInCategory="100"
+            app:showAsAction="never" />
+        <item android:id="@+id/LogIn"
+            android:title="Log In"
+            android:orderInCategory="100"
+            app:showAsAction="never" />
+        <item android:id="@+id/enterCalories"
+            android:title="Enter Calories"
+            android:orderInCategory="100"
+            app:showAsAction="never" />
+        <item android:id="@+id/Cale"
+            android:title="Calendar"
+            android:orderInCategory="100"
+            app:showAsAction="never" />
+
 </menu>

@@ -1,5 +1,7 @@
 package com.ex.patrick.myapp;
 
+
+
 /**
  * Created by patri_000 on 2/15/2016.
  */
@@ -8,16 +10,20 @@ public class Calories {
     private int calTotal;
     private int steps;
     private int calBurned;
+    private String password;
 
-    private Calories(){
+    private Calories() {
 
     }
-    public Calories( String date, int calTotal, int steps, int calBurned){
-        this.date=date;
-        this.calTotal=calTotal;
-        this.steps=steps;
-        this.calBurned=calBurned;
+
+    public Calories(String date, int calTotal, int steps, int calBurned,String password) {
+        this.date = date;
+        this.calTotal = calTotal;
+        this.steps = steps;
+        this.calBurned = calBurned;
+        this.password=password;
     }
+
     public int getSteps() {
         return steps;
     }
@@ -32,6 +38,10 @@ public class Calories {
 
     public int getCalBurned() {
         return calBurned;
+    }
+
+    public String getPassword(){
+        return password;
     }
 
 

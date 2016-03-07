@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Calandar">
+    tools:context=".chart">
 
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
@@ -22,7 +22,14 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <include layout="@layout/content_calandar" />
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/graph"
+        android:layout_weight="2"/>
+
+    <include layout="@layout/content_chart" />
 
 
 
