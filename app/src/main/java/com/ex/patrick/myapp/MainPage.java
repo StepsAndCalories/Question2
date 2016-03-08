@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -63,12 +64,17 @@ public class MainPage extends AppCompatActivity implements SensorEventListener {
         totalCalories.setText(Integer.toString(calCount));
 
         SharedPreferences sharedPref = getSharedPreferences("userInfo",Context.MODE_PRIVATE);
-        name = sharedPref.getString("username","Please log in");
-        title.setText(name+"'s Calories Today");
+        name = sharedPref.getString("username","Please Log In");
+        title.setText(name+" Calories Today");
 
 
 
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        if(countSensor!=null){
+            sensorManager.registerListener(this,countSensor, SensorManager.SENSOR_DELAY_UI);
+        }
+        else
+            Toast.makeText(this, "Count sensor not working",Toast.LENGTH_LONG).show();
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +93,10 @@ public class MainPage extends AppCompatActivity implements SensorEventListener {
     }
     public void onSensorChanged(SensorEvent event){
         steps.setText(String.valueOf(event.values[0]));
+        stepCount=(int)event.values[0];
+        cbCount=stepCount/20;
+        caloriesBurned.setText(String.valueOf(cbCount));
+
     }
     public void onAccuracyChanged(Sensor sensor, int accuracy){
 
