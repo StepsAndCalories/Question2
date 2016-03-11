@@ -144,5 +144,7 @@
         android:id="@+id/totalButton"
         android:text="Update"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@color/buttonColor"
+        android:textStyle="bold"/>
 </LinearLayout>

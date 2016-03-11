@@ -36,8 +36,12 @@ public class MainPage extends AppCompatActivity implements SensorEventListener {
     private int cbCount=0;
     private int calCount=0;
     private Button calendarButton;
+    private Button pedButton;
+    private Button resetButton;
     private Firebase firebaseRef;
     String name;
+    boolean ped=true;
+    SharedPreferences sharedPref;
 
 
     @Override
@@ -51,51 +55,93 @@ public class MainPage extends AppCompatActivity implements SensorEventListener {
         Firebase.setAndroidContext(this);
         firebaseRef = new Firebase(FIREBASE_URL);
 
-        sensorManager=(SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         totalCalories = (TextView) findViewById(R.id.totalCalories);
         steps = (TextView) findViewById(R.id.steps);
         caloriesBurned = (TextView) findViewById(R.id.caloriesBurned);
         calendarButton = (Button) findViewById(R.id.calendarButton);
         title = (TextView) findViewById(R.id.title);
+        pedButton = (Button) findViewById(R.id.pedButton);
+        resetButton = (Button) findViewById(R.id.resetButton);
 
-        cbCount = stepCount/20;
-        if(getIntent().getExtras()!=null)
-            calCount = ((getIntent().getExtras().getInt("calories")))-cbCount;
-        totalCalories.setText(Integer.toString(calCount));
 
-        SharedPreferences sharedPref = getSharedPreferences("userInfo",Context.MODE_PRIVATE);
-        name = sharedPref.getString("username","Please Log In");
-        title.setText(name+" Calories Today");
 
+        sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        if (getIntent().getExtras() != null)
+            calCount = ((getIntent().getExtras().getInt("calories"))) - sharedPref.getInt("cbCount",0);
+        if(calCount>-1)
+            totalCalories.setText(Integer.toString(calCount));
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("cbCount", (cbCount));
+        editor.apply();
+        caloriesBurned.setText(Integer.toString(cbCount));
+        name = sharedPref.getString("username", "Please Log In");
+        title.setText(name + " Calories This Trip");
 
 
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if(countSensor!=null){
-            sensorManager.registerListener(this,countSensor, SensorManager.SENSOR_DELAY_UI);
-        }
-        else
-            Toast.makeText(this, "Count sensor not working",Toast.LENGTH_LONG).show();
+        if (countSensor != null) {
+            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
+        } else
+            Toast.makeText(this, "Not Counting Steps", Toast.LENGTH_LONG).show();
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Date myDate = new Date();
                 DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
                 String date = (dateFormat.format(myDate));
-                Log.i("test",date);
-                Calories calories = new Calories(date,calCount,stepCount,cbCount," ");
-                String string = "calories/"+name+"/"+date;
+                Log.i("test", date);
+                Calories calories = new Calories(date, calCount, stepCount, cbCount, " ");
+                String string = "calories/" + name + "/" + date;
                 firebaseRef.child(string).setValue(calories);
                 Intent myIntent = new Intent(MainPage.this, Calandar.class);
                 startActivity(myIntent);
             }
-        } );
+        });
 
+        pedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ped == true) {
+                    pedButton.setText("Pedometer off");
+                    ped = false;
+                } else if (ped == false) {
+                    pedButton.setText("Pedometer on");
+                    ped = true;
+                }
+            }
+        });
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stepCount = 0;
+                steps.setText("0");
+                cbCount = 0;
+                caloriesBurned.setText("0");
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putInt("cbCount", (cbCount));
+                editor.apply();
+            }
+        });
     }
+
     public void onSensorChanged(SensorEvent event){
-        steps.setText(String.valueOf(event.values[0]));
-        stepCount=(int)event.values[0];
-        cbCount=stepCount/20;
-        caloriesBurned.setText(String.valueOf(cbCount));
+        if(ped==true) {
+
+            steps.setText(String.valueOf((int) (event.values[0])));
+            stepCount = (int) event.values[0];
+            cbCount = stepCount / 20;
+            caloriesBurned.setText(String.valueOf(cbCount));
+            if (stepCount % 20 == 0) {
+                calCount = calCount - 1;
+                if(calCount>-1)
+                totalCalories.setText(Integer.toString(calCount));
+            }
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt("cbCount", (cbCount));
+            editor.apply();
+        }
 
     }
     public void onAccuracyChanged(Sensor sensor, int accuracy){

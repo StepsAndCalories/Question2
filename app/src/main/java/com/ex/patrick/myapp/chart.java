@@ -81,7 +81,8 @@ public class chart extends AppCompatActivity {
             }
 
             Log.i("hello2", date2);
-            dates[count+2]=month2+"-"+dayOfMonth2;
+            dates[(count+2)]=month2+"-"+dayOfMonth2;
+            Log.i("hello3", dates[(count+2)]);
             SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
             Firebase ref = new Firebase("https://luminous-inferno-1959.firebaseio.com/calories/"+sharedPref.getString("username","Please log in")+"/" + date2);
             ref.addListenerForSingleValueEvent(new ValueEventListener() {

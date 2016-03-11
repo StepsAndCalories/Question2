@@ -19,13 +19,35 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/pedButton"
+            android:text="Pedometer On"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/buttonColor"
+            android:textStyle="bold"/>
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/resetButton"
+            android:text="Reset Steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/buttonColor"
+            android:textStyle="bold"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="40sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
         android:text="Today's Calories"
         android:gravity="bottom"
         android:textAlignment="center"
@@ -35,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="000"
+        android:text="0"
         android:textSize="40sp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -79,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="000"
+            android:text="0"
             android:textSize="20sp"
             android:gravity="top|left"
 
@@ -89,7 +111,7 @@
             android:id="@+id/caloriesBurned"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="000"
+            android:text="0"
             android:textSize="20sp"
             android:gravity="right|top"
             android:layout_weight="1"
@@ -100,6 +122,8 @@
         android:id="@+id/calendarButton"
         android:text="Update Database"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@color/buttonColor"
+        android:textStyle="bold"/>
 
 </LinearLayout>
