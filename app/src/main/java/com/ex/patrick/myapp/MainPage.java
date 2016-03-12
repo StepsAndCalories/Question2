@@ -41,6 +41,7 @@ public class MainPage extends AppCompatActivity implements SensorEventListener {
     private Firebase firebaseRef;
     String name;
     boolean ped=true;
+    boolean reset=false;
     SharedPreferences sharedPref;
 
 
@@ -67,14 +68,15 @@ public class MainPage extends AppCompatActivity implements SensorEventListener {
 
 
         sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        stepCount=sharedPref.getInt("stepCount",0);
+        cbCount=sharedPref.getInt("cbCount",0);
         if (getIntent().getExtras() != null)
-            calCount = ((getIntent().getExtras().getInt("calories"))) - sharedPref.getInt("cbCount",0);
+            calCount = ((getIntent().getExtras().getInt("calories"))) - cbCount;
         if(calCount>-1)
             totalCalories.setText(Integer.toString(calCount));
 
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("cbCount", (cbCount));
-        editor.apply();
+
+        steps.setText(Integer.toString(stepCount));
         caloriesBurned.setText(Integer.toString(cbCount));
         name = sharedPref.getString("username", "Please Log In");
         title.setText(name + " Calories This Trip");
@@ -121,16 +123,22 @@ public class MainPage extends AppCompatActivity implements SensorEventListener {
                 caloriesBurned.setText("0");
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putInt("cbCount", (cbCount));
+                editor.putInt("stepCount",stepCount);
                 editor.apply();
+                reset=true;
             }
         });
     }
 
     public void onSensorChanged(SensorEvent event){
+        if(reset==true)
+        {
+            stepCount=0;
+            reset=false;
+        }
         if(ped==true) {
-
-            steps.setText(String.valueOf((int) (event.values[0])));
-            stepCount = (int) event.values[0];
+            stepCount++;
+            steps.setText(stepCount);
             cbCount = stepCount / 20;
             caloriesBurned.setText(String.valueOf(cbCount));
             if (stepCount % 20 == 0) {
@@ -140,6 +148,7 @@ public class MainPage extends AppCompatActivity implements SensorEventListener {
             }
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putInt("cbCount", (cbCount));
+            editor.putInt("stepCount",stepCount);
             editor.apply();
         }
 
